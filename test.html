@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dark Mode Toggle</title>
+  <style>
+    /* 다크 모드와 일반 모드를 위한 스타일 */
+    body {
+      transition: background-color 0.3s ease;
+    }
+    .dark-mode {
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <button id="darkModeToggle">Dark Mode Toggle</button>
+  
+  <script>
+    const toggleButton = document.getElementById('darkModeToggle');
+    const body = document.body;
+    
+    toggleButton.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const isDarkMode = body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode); // 다크 모드 상태를 저장
+    });
+
+    // 페이지 로드 시 이전에 선택한 다크 모드 상태 복원
+    window.addEventListener('load', () => {
+      const isDarkMode = JSON.parse(localStorage.getItem('darkMode'));
+      if (isDarkMode) {
+        body.classList.add('dark-mode');
+      }
+    });
+  </script>
+</body>
+</html>

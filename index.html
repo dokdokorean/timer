@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>정직한 타이머</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input id="title" placeholder="내가 꿈을 꿀때 다른 이들은 꿈을 이룬다."> 
+  <div id="timer">
+    <input type="number" id="hoursInput" placeholder="Hour">
+    <input type="number" id="minutesInput" placeholder="Minute">
+    <input type="number" id="secondsInput" placeholder="Second">
+    <button id="start" onclick="startTimer()">Start</button>
+    <button id="stop" onclick="stopTimer()">Stop</button>
+    <button id="reset" onclick="resetTimer()">Reset</button>
+    <p id="display">00:00:00</p>
+  </div>
+  <img id="fullsc" onclick="fullsc()" src="fullsc.png">
+  <script src="main.js"></script>
+</body>
+</html>
