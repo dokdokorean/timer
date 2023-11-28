@@ -117,7 +117,7 @@ fetch('quote.json')
         const randomIndex = Math.floor(Math.random() * data.length);
         const randomQuote = data[randomIndex];
 
-        document.getElementById('title').placeholder = randomQuote.quote + randomQuote.author;
+        document.getElementById('title').placeholder = randomQuote.quote + '-' + randomQuote.author;
 
         // HTML에 명언과 저자를 추가합니다.
       })
