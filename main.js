@@ -110,6 +110,8 @@ function resetTimer() {
   displayElement.innerText = display;
   isTimerRunning = false;
 }
+var date = new Date();
+document.getElementById('nowtime1').innerText=date;
 fetch('quote.json')
       .then(response => response.json())
       .then(data => {

@@ -103,6 +103,12 @@ body {
 
   }
 
+/* 현재 시간 */
+#nowtime{
+  width: 100px;
+  height: 100px;
+}
+
 /* 새로운 CSS 스타일을 추가하여 숫자가 깜빡거리도록 설정합니다. */
 @keyframes blink {
     0% {
