@@ -7,6 +7,33 @@ let isTimerRunning = false;
 let savedTotalSeconds = 0; // 중지된 시간을 저장할 변수 추가
 let blinkInterval;
 
+function updateTime() {
+  // 현재 시간을 가져옵니다.
+  var now = new Date();
+  
+  // 시, 분, 초를 가져옵니다.
+  var hours = now.getHours();
+  var minutes = now.getMinutes();
+  var seconds = now.getSeconds();
+  
+  // 시간, 분, 초가 한 자리 숫자일 경우 앞에 0을 붙여 두 자리로 만듭니다.
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+  
+  // 현재 시간을 형식에 맞게 표시합니다.
+  var currentTime = hours + ':' + minutes + ':' + seconds;
+  
+  // HTML 문서의 특정 요소에 현재 시간을 표시합니다.
+  document.getElementById('nowtime1').innerText = currentTime;
+}
+
+// 1초마다 updateTime 함수를 호출하여 시간을 업데이트합니다.
+setInterval(updateTime, 1000);
+
+// 페이지 로드 시에도 초기 시간을 표시합니다.
+updateTime();
+
     document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.getElementById('timer');
     
@@ -110,8 +137,6 @@ function resetTimer() {
   displayElement.innerText = display;
   isTimerRunning = false;
 }
-var date = new Date();
-document.getElementById('nowtime1').innerText=date;
 fetch('quote.json')
       .then(response => response.json())
       .then(data => {
