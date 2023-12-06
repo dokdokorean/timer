@@ -7,10 +7,56 @@ let isTimerRunning = false;
 let savedTotalSeconds = 0; // 중지된 시간을 저장할 변수 추가
 let blinkInterval;
 
+const $checkbox = document.querySelector('.check');
+
+const isUserColorTheme = localStorage.getItem('color-theme');
+const isOsColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+const getUserTheme = () => (isUserColorTheme ? isUserColorTheme : isOsColorTheme);
+
+window.onload = function () {
+  if (getUserTheme === 'dark') {
+    localStorage.setItem('color-theme', 'dark');
+    document.documentElement.setAttribute('color-theme', 'dark');
+    $checkbox.setAttribute('checked', true);
+  } else {
+    localStorage.setItem('color-theme', 'light');
+    document.documentElement.setAttribute('color-theme', 'light');
+  }
+};
+
+$checkbox.addEventListener('click', e => {
+  if (e.target.checked) {
+    localStorage.setItem('color-theme', 'light');
+    document.documentElement.setAttribute('color-theme', 'dark');
+  } else {
+    localStorage.setItem('color-theme', 'light');
+    document.documentElement.setAttribute('color-theme', 'light');
+  }
+});
+
 function updateTime() {
   // 현재 시간을 가져옵니다.
   var now = new Date();
   
+  var year = now.getFullYear();
+  var month = now.getMonth();
+  var date = now.getDate();
+  if(now.getDay()==0){
+    var day = '일요일';
+  }else if(now.getDay()==1){
+    var day = '월요일';
+  }else if(now.getDay()==2){
+    var day = '화요일';
+  }else if(now.getDay()==3){
+    var day = '수요일';
+  }else if(now.getDay()==4){
+    var day = '목요일';
+  }else if(now.getDay()==5){
+    var day = '금요일';
+  }else if(now.getDay()==6){
+    var day = '토요일';
+  }
   // 시, 분, 초를 가져옵니다.
   var hours = now.getHours();
   var minutes = now.getMinutes();
@@ -22,10 +68,12 @@ function updateTime() {
   seconds = seconds < 10 ? '0' + seconds : seconds;
   
   // 현재 시간을 형식에 맞게 표시합니다.
+  var currentday = year + '.' + month + '.'+ date  + ','+ day;
   var currentTime = hours + ':' + minutes + ':' + seconds;
   
   // HTML 문서의 특정 요소에 현재 시간을 표시합니다.
-  document.getElementById('nowtime1').innerText = currentTime;
+  document.getElementById('nowtime1').innerText = currentday;
+  document.getElementById('nowtime2').innerText = currentTime;
 }
 
 // 1초마다 updateTime 함수를 호출하여 시간을 업데이트합니다.
@@ -45,7 +93,7 @@ updateTime();
           document.getElementById('start').style.opacity = '1';
           document.getElementById('stop').style.opacity = '1';
           document.getElementById('reset').style.opacity = '1'; // 투명도를 1로 변경
-          document.getElementById('display').style.top='20px'; 
+          document.getElementById('display').style.top='30px'; 
         });
     
         // 마우스 아웃 시 애니메이션
