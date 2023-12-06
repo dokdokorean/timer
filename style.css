@@ -94,6 +94,9 @@ body {
     transition:opacity 0.3s;
     color: var(--displayColor);
   }
+  input:focus {
+    outline: none;
+  }
   #hoursInput{
     position: absolute;
     top: 250px;
