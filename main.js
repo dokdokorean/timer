@@ -40,7 +40,7 @@ function updateTime() {
   var now = new Date();
   
   var year = now.getFullYear();
-  var month = now.getMonth();
+  var month = now.getMonth()+1;
   var date = now.getDate();
   if(now.getDay()==0){
     var day = '일요일';
