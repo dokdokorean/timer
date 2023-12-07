@@ -107,9 +107,32 @@ updateTime();
             document.getElementById('display').style.top='85px'; 
         });
       });
-
+      function isFullScreen() {
+        return (
+          document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement
+        );
+      }
+      function exitFullScreen() {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+      
 function fullsc(){
-    document.documentElement.requestFullscreen()
+  if (isFullScreen()) {
+    document.exitFullscreen();
+  }else{
+        document.documentElement.requestFullscreen()
+  }
 }
 document.getElementById('title').ariaPlaceholder='하이'
 
