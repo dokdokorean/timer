@@ -25,6 +25,7 @@ window.onload = function () {
   }
 };
 
+
 $checkbox.addEventListener('click', e => {
   if (e.target.checked) {
     localStorage.setItem('color-theme', 'light');
