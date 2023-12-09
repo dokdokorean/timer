@@ -193,6 +193,9 @@ function stopTimer() {
 }
 
 function resetTimer() {
+  let hoursInput = 0;
+  let minutesInput = 0;
+  let secondsInput = 0;
   clearInterval(timer);
   totalSeconds = 0;
   seconds = 0;
