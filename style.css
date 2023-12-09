@@ -160,7 +160,9 @@ body {
   #display{
     position: absolute;
     top: 30px;
-    left: 150px;
+    left: 50%;
+    transform: translate(-50%,0);
+    width: auto;
     font-family: 'Pretendard-SB';
     font-size: 70px;
     color: var(--displayColor);
