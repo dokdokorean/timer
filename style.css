@@ -45,6 +45,7 @@ body {
   }
   #nowtime{
     color: var(--displayColor);
+    transition: color 0.3s ease;
     position: absolute;
     top: 0px;
     letter-spacing: 1px;
