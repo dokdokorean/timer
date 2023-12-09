@@ -141,6 +141,9 @@ function displayTime() {
     let displayElement = document.getElementById('display');
   
     if (totalSeconds === 0 && isTimerRunning) {
+      let hoursInput = 0;
+      let minutesInput = 0;
+      let secondsInput = 0;
       clearInterval(blinkInterval);
       blinkInterval = setInterval(() => {
         displayElement.style.visibility = (displayElement.style.visibility === 'hidden') ? 'visible' : 'hidden';
