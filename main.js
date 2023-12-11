@@ -161,7 +161,6 @@ function startTimer() {
   if (isTimerRunning) {
     return;
   }
-
   let hoursInput = parseInt(document.getElementById('hoursInput').value) || 0;
   let minutesInput = parseInt(document.getElementById('minutesInput').value) || 0;
   let secondsInput = parseInt(document.getElementById('secondsInput').value) || 0;
@@ -197,10 +196,8 @@ function stopTimer() {
 }
 
 function resetTimer() {
-  let hoursInput = 0;
-  let minutesInput = 0;
-  let secondsInput = 0;
   clearInterval(timer);
+  savedTotalSeconds = 0; // 중지된 시간을 저장
   totalSeconds = 0;
   seconds = 0;
   minutes = 0;
