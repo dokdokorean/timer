@@ -214,6 +214,7 @@ function resetTimer() {
   displayElement.innerText = display;
   isTimerRunning = false;
 }
+
 fetch('quote.json')
       .then(response => response.json())
       .then(data => {
