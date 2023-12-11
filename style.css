@@ -64,6 +64,13 @@ body {
   #nowtime2{
     top: -30px;
   }
+  #musicplayer{
+    width: fit-content;
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translate(-50%,0);
+  }
   #timer {
     position: absolute;
     left: 50%;
