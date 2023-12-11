@@ -219,7 +219,7 @@ fetch('quote.json')
       .then(response => response.json())
       .then(data => {
         // 명언을 랜덤으로 선택합니다.
-        const randomIndex = Math.floor(Math.random() * data.length);
+        const randomIndex = Math.floor(Math.random() * (data.length)*4);
         const randomQuote = data[randomIndex];
 
         document.getElementById('title').placeholder = randomQuote.quote + '-' + randomQuote.author;
