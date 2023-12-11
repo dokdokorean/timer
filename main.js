@@ -23,6 +23,7 @@ window.onload = function () {
     localStorage.setItem('color-theme', 'light');
     document.documentElement.setAttribute('color-theme', 'light');
   }
+  pickquote();
 };
 
 $checkbox.addEventListener('click', e => {
@@ -215,7 +216,8 @@ function resetTimer() {
   isTimerRunning = false;
 }
 
-fetch('quote.json')
+function pickquote(){
+  fetch('quote.json')
       .then(response => response.json())
       .then(data => {
         // 명언을 랜덤으로 선택합니다.
@@ -226,3 +228,4 @@ fetch('quote.json')
 
         // HTML에 명언과 저자를 추가합니다.
       })
+}
