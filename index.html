@@ -9,14 +9,16 @@
 <body>
     <input id="darkmode" class="check" type="checkbox"/>
     <div id="musicplayer">
-      <input type="text" id="youtubeLink" placeholder="유튜브 링크를 입력하세요">
-      <button onclick="loadVideo()">동영상 불러오기</button>
-      <button onclick="playVideo()">재생</button>
-      <button onclick="pauseVideo()">일시정지</button>
+      <p id="dragger"></p>
+      <input type="text" id="youtubeLink" placeholder="유튜브 링크를 입력하세요" onkeyup="if(window.event.keyCode==13){loadVideo()}"/>
+      <img onclick="toggleVideo()" id="play" class="player" src="play.png">
+      <img onclick="toggleVideo()" id="pause" class="player" src="pause.png">
       <div id="player"></div>
-      <div id="videoInfo"></div>
-      <input type="range" id="videoSlider" min="0" value="0">
-      <img id="thumbnailImage" style="width: 50px; height:auto;" src="" alt="썸네일 이미지">
+      <p id="videotitle"></p>
+      <p id="videorange1">00:00</p>
+      <p id="videorange2">00:00</p>
+      <input id="slider" type="range" min="0" value="0">
+      <img id="thumbnailImage">
       <script src="https://www.youtube.com/iframe_api"></script>    
     </div>
   <div id="nowtime">

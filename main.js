@@ -12,7 +12,7 @@ let thumbnailImage;
 
 function onYouTubeIframeAPIReady() {
   // API 준비 완료 시 실행될 작업
-  slider = document.getElementById('videoSlider');
+  slider = document.getElementById('slider');
   thumbnailImage = document.getElementById('thumbnailImage');
   slider.addEventListener('input', onSliderChange);
 }
@@ -67,25 +67,54 @@ function getYoutubeVideoId(url) {
   return match && match[1];
 }
 
-function playVideo() {
+function toggleVideo() {
   if (player) {
-    player.playVideo();
+    if (player.getPlayerState() === 1) { // 재생 중인 경우
+      player.pauseVideo();
+      document.getElementById('pause').style.display = 'none';
+      document.getElementById('play').style.display = 'block';
+    } else { // 정지된 경우 또는 일시정지 중인 경우
+      player.playVideo();
+      document.getElementById('play').style.display = 'none';
+      document.getElementById('pause').style.display = 'block';
+    }
   }
 }
 
-function pauseVideo() {
-  if (player) {
-    player.pauseVideo();
-  }
-}
+const draggableDiv = document.getElementById('musicplayer');
+const dragger = document.getElementById('dragger');
 
+let offsetX, offsetY;
+let isDragging = false;
+
+// 마우스 클릭 이벤트
+dragger.addEventListener('mousedown', function(e) {
+  isDragging = true;
+  const rect = draggableDiv.getBoundingClientRect();
+  offsetX = e.clientX - rect.left;
+  offsetY = e.clientY - rect.top;
+});
+
+// 마우스 이동 이벤트
+document.addEventListener('mousemove', function(e) {
+  if (isDragging) {
+    draggableDiv.style.left = `${e.clientX}px`;
+    draggableDiv.style.top = `${e.clientY - offsetY}px`;
+  }
+});
+
+// 마우스 릴리스 이벤트
+document.addEventListener('mouseup', function() {
+  isDragging = false;
+});
 function updateVideoInfo() {
   if (player) {
-    const videoInfo = document.getElementById('videoInfo');
-    videoInfo.innerHTML = `
-      <p>제목: ${player.getVideoData().title}</p>
-      <p>진행 시간: ${formatTime(player.getCurrentTime())} / ${formatTime(player.getDuration())}</p>
-    `;
+    const videotitle = document.getElementById('videotitle');
+    const videorange1 = document.getElementById('videorange1');
+    const videorange2 = document.getElementById('videorange2');
+    videotitle.innerText=player.getVideoData().title;
+    videorange1.innerText=formatTime(player.getCurrentTime());
+    videorange2.innerText=formatTime(player.getDuration());
     slider.max = player.getDuration();
     slider.value = player.getCurrentTime();
   }
@@ -182,7 +211,31 @@ setInterval(updateTime, 1000);
 
 // 페이지 로드 시에도 초기 시간을 표시합니다.
 updateTime();
+const overlayyoutube = document.getElementById('thumbnailImage');
+let isClicked = false;
 
+overlayyoutube.addEventListener('click', function() {
+  isClicked = !isClicked; // 클릭 상태를 토글합니다.
+
+  if (isClicked) {
+    document.getElementById('youtubeLink').style.top = '75px';
+    document.getElementById('youtubeLink').style.opacity = '1';
+    //플레이어는 지워지기
+    document.getElementById('play').style.top = '20px'
+    document.getElementById('play').style.opacity = '0'
+    document.getElementById('pause').style.top = '20px'
+    document.getElementById('pause').style.opacity = '0'
+  } else {
+    document.getElementById('youtubeLink').style.top = '90px';
+    document.getElementById('youtubeLink').style.opacity = '0';
+    //플레이어는 보이기
+    document.getElementById('play').style.top = '60px'
+    document.getElementById('play').style.opacity = '1'
+    document.getElementById('pause').style.top = '60px'
+    document.getElementById('pause').style.opacity = '1'
+
+  }
+});
     document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.getElementById('timer');
     
@@ -228,6 +281,13 @@ updateTime();
         }
       }
       
+  const range = document.getElementById('slider');
+  
+  range.addEventListener('input', function() {
+    const value = (range.value - range.min) / (range.max - range.min) * 100;
+    
+    range.style.background = `linear-gradient(to right, #fff 0%, #3498db ${value}%, #ddd ${value}%, #ddd 100%)`;
+  });
 function fullsc(){
   if (isFullScreen()) {
     document.exitFullscreen();
@@ -254,7 +314,7 @@ function displayTime() {
     document.title = display;
     displayElement.innerText = display;
   }
-  
+
   
 function startTimer() {
   if (isTimerRunning) {
