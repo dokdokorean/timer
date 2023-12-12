@@ -242,9 +242,7 @@ function displayTime() {
     let displayElement = document.getElementById('display');
   
     if (totalSeconds === 0 && isTimerRunning) {
-      let hoursInput = 0;
-      let minutesInput = 0;
-      let secondsInput = 0;
+      savedTotalSeconds = 0; // 중지된 시간을 저장
       clearInterval(blinkInterval);
       blinkInterval = setInterval(() => {
         displayElement.style.visibility = (displayElement.style.visibility === 'hidden') ? 'visible' : 'hidden';
