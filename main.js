@@ -255,6 +255,7 @@ function displayTime() {
     displayElement.innerText = display;
   }
   
+  
 function startTimer() {
   if (isTimerRunning) {
     return;
