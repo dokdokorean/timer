@@ -9,8 +9,8 @@
 <body>
     <input id="darkmode" class="check" type="checkbox"/>
     <div id="musicplayer">
-      <p id="dragger"></p>
-      <input type="text" id="youtubeLink" placeholder="유튜브 링크를 입력하세요" onkeyup="if(window.event.keyCode==13){loadVideo()}"/>
+      <p id="musicdragger"></p>
+      <input type="text" id="youtubeLink" placeholder="유튜브 링크를 입력하세요" onkeyup="if(window.event.keyCode==13){hideLinkYoutube()}"/>
       <img onclick="toggleVideo()" id="play" class="player" src="play.png">
       <img onclick="toggleVideo()" id="pause" class="player" src="pause.png">
       <div id="player"></div>
@@ -18,7 +18,7 @@
       <p id="videorange1">00:00</p>
       <p id="videorange2">00:00</p>
       <input id="slider" type="range" min="0" value="0">
-      <img id="thumbnailImage">
+      <img id="thumbnailImage" onclick="showLinkYoutube()">
       <script src="https://www.youtube.com/iframe_api"></script>    
     </div>
   <div id="nowtime">
@@ -28,6 +28,7 @@
   </div>
   <!-- <input id="title" placeholder="내가 꿈을 꿀때 다른 이들은 꿈을 이룬다.">  -->
   <div id="timer">
+    <p id="timerdragger"></p>
     <input type="number" id="hoursInput" placeholder="Hour">
     <input type="number" id="minutesInput" placeholder="Minute">
     <input type="number" id="secondsInput" placeholder="Second">

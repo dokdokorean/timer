@@ -61,6 +61,7 @@ function onPlayerStateChange(event) {
   }
 }
 
+
 function getYoutubeVideoId(url) {
   const regExp = /[?&]v=([^?&]+)/;
   const match = url.match(regExp);
@@ -81,31 +82,42 @@ function toggleVideo() {
   }
 }
 
-const draggableDiv = document.getElementById('musicplayer');
-const dragger = document.getElementById('dragger');
+const musicplayerdiv = document.getElementById('musicplayer');
+const musicplayerdragger = document.getElementById('musicdragger');
+
+const timerdiv = document.getElementById('timer');
+const timerdragger = document.getElementById('timerdragger');
 
 let offsetX, offsetY;
-let isDragging = false;
+let ismusicplayerDragging = false;
+let istimerDragging = false;
+
 
 // 마우스 클릭 이벤트
-dragger.addEventListener('mousedown', function(e) {
-  isDragging = true;
-  const rect = draggableDiv.getBoundingClientRect();
-  offsetX = e.clientX - rect.left;
-  offsetY = e.clientY - rect.top;
+musicplayerdragger.addEventListener('mousedown', function(e) {
+  ismusicplayerDragging = true;
+});
+
+timerdragger.addEventListener('mousedown', function(e) {
+  istimerDragging = true;
 });
 
 // 마우스 이동 이벤트
 document.addEventListener('mousemove', function(e) {
-  if (isDragging) {
-    draggableDiv.style.left = `${e.clientX}px`;
-    draggableDiv.style.top = `${e.clientY - offsetY}px`;
+  if (ismusicplayerDragging) {
+    musicplayerdiv.style.left = `${e.clientX}px`;
+    musicplayerdiv.style.top = `${e.clientY - 10}px`;
+  }
+  else if (istimerDragging) {
+    timerdiv.style.left = `${e.clientX}px`;
+    timerdiv.style.top = `${e.clientY + 139}px`;
   }
 });
 
 // 마우스 릴리스 이벤트
 document.addEventListener('mouseup', function() {
-  isDragging = false;
+  ismusicplayerDragging = false;
+  istimerDragging = false;
 });
 function updateVideoInfo() {
   if (player) {
@@ -236,6 +248,25 @@ overlayyoutube.addEventListener('click', function() {
 
   }
 });
+function showLinkYoutube(){
+  document.getElementById('youtubeLink').style.top = '75px';
+  document.getElementById('youtubeLink').style.opacity = '1';
+  //플레이어는 지워지기
+  document.getElementById('play').style.top = '20px'
+  document.getElementById('play').style.opacity = '0'
+  document.getElementById('pause').style.top = '20px'
+  document.getElementById('pause').style.opacity = '0'
+}
+function hideLinkYoutube(){
+    document.getElementById('youtubeLink').style.top = '90px';
+  document.getElementById('youtubeLink').style.opacity = '0';
+  //플레이어는 보이기
+  document.getElementById('play').style.top = '60px'
+  document.getElementById('play').style.opacity = '1'
+  document.getElementById('pause').style.top = '60px'
+  document.getElementById('pause').style.opacity = '1'
+  loadVideo()
+}
     document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.getElementById('timer');
     
@@ -295,7 +326,7 @@ function fullsc(){
         document.documentElement.requestFullscreen()
   }
 }
-document.getElementById('title').ariaPlaceholder='하이'
+// document.getElementById('title').ariaPlaceholder='하이'
 
 function displayTime() {
     let display = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
@@ -372,16 +403,16 @@ function resetTimer() {
   isTimerRunning = false;
 }
 
-function pickquote(){
-  fetch('quote.json')
-      .then(response => response.json())
-      .then(data => {
-        // 명언을 랜덤으로 선택합니다.
-        const randomIndex = Math.floor(Math.random() * (data.length));
-        const randomQuote = data[randomIndex];
+// function pickquote(){
+//   fetch('quote.json')
+//       .then(response => response.json())
+//       .then(data => {
+//         // 명언을 랜덤으로 선택합니다.
+//         const randomIndex = Math.floor(Math.random() * (data.length));
+//         const randomQuote = data[randomIndex];
 
-        document.getElementById('title').placeholder = randomQuote.quote + '-' + randomQuote.author;
+//         document.getElementById('title').placeholder = randomQuote.quote + '-' + randomQuote.author;
 
-        // HTML에 명언과 저자를 추가합니다.
-      })
-}
+//         // HTML에 명언과 저자를 추가합니다.
+//       })
+// }
