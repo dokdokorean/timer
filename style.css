@@ -197,22 +197,6 @@ body {
     cursor: pointer;
     margin-top: -5px; /* 썸 위치 조정 */
   }
-  
-  input[type="range"]::-moz-range-track {
-    width: 100%;
-    height: 10px;
-    background: #ddd; /* Firefox에 대한 설정 */
-    border-radius: 5px;
-  }
-
-  input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: #3498db; /* Firefox에 대한 설정 */
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
   #timer {
     position: absolute;
     left: 50%;
