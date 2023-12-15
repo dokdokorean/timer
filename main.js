@@ -245,11 +245,10 @@ window.onload = function () {
     addlist()
     console.log(todolistid)
     record_input=localStorage.getItem('localstorage-todolist-record')
-    console.log(record_input)
   }
+  record_input=localStorage.getItem('localstorage-todolist-record')
   let commaSeparatedString = record_input;
   let record_input_array = commaSeparatedString.split(',');
-  console.log(record_input_array)
 
   for(var i=1;i<parseInt(localstorage_itemcount+1);i++){    
     var todolistid='todolist'+i;
