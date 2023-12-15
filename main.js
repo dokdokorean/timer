@@ -88,9 +88,14 @@ const musicplayerdragger = document.getElementById('musicdragger');
 const timerdiv = document.getElementById('timer');
 const timerdragger = document.getElementById('timerdragger');
 
+const todolistdiv = document.getElementById('todolist-div');
+const todolistdragger = document.getElementById('todolistdragger');
+
 let offsetX, offsetY;
 let ismusicplayerDragging = false;
 let istimerDragging = false;
+let istodolistDragging = false;
+
 
 
 // 마우스 클릭 이벤트
@@ -101,23 +106,39 @@ musicplayerdragger.addEventListener('mousedown', function(e) {
 timerdragger.addEventListener('mousedown', function(e) {
   istimerDragging = true;
 });
+todolistdragger.addEventListener('mousedown', function(e) {
+  istodolistDragging = true;
+});
 
+let zindexevent=0;
 // 마우스 이동 이벤트
 document.addEventListener('mousemove', function(e) {
   if (ismusicplayerDragging) {
     musicplayerdiv.style.left = `${e.clientX}px`;
     musicplayerdiv.style.top = `${e.clientY - 10}px`;
-  }
+    musicplayerdiv.style.zIndex = zindexevent;
+    zindexevent++;
+    }
   else if (istimerDragging) {
     timerdiv.style.left = `${e.clientX}px`;
-    timerdiv.style.top = `${e.clientY + 139}px`;
+    timerdiv.style.top = `${e.clientY + 130}px`;
+    timerdiv.style.zIndex = zindexevent;
+    zindexevent++;
+  }
+  else if (istodolistDragging) {
+    todolistdiv.style.left = `${e.clientX-todolistdiv.getBoundingClientRect().width*0.5}px`;
+    todolistdiv.style.top = `${e.clientY -20}px`;
+    todolistdiv.style.zIndex = zindexevent;
+    zindexevent++;
   }
 });
 
+(document.getElementById('todolist-div').width)*0.5
 // 마우스 릴리스 이벤트
 document.addEventListener('mouseup', function() {
   ismusicplayerDragging = false;
   istimerDragging = false;
+  istodolistDragging = false;
 });
 function updateVideoInfo() {
   if (player) {
@@ -131,6 +152,50 @@ function updateVideoInfo() {
     slider.value = player.getCurrentTime();
   }
 }
+const addButton = document.querySelector('.add-button');
+const checklist = document.querySelector('.checklist');
+const todolistinput = document.getElementsByClassName('todolist');
+let itemCount = 0;
+
+function addlist() {
+  if (itemCount < 25) {
+    const newItem = document.createElement('div');
+    newItem.classList.add('checklist-item');
+    newItem.innerHTML = `
+      <input type="checkbox" id="item-${itemCount}">  
+      <input class='todolist' type="text"placeholder="할 일 ${itemCount + 1}">
+      <button class='deletelist'>-</button>
+    `;
+    checklist.appendChild(newItem);
+    itemCount++;
+    const newlyAddedInput = newItem.querySelector('.todolist');
+    newlyAddedInput.focus();
+  } else {
+    alert('체크리스트는 최대 25개까지 추가할 수 있습니다.');
+  }
+}
+
+document.getElementById('todolist-div').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    addlist();
+  }
+});
+
+addButton.addEventListener('click', () => {
+  addlist();
+});
+
+// 기존 addButton에 대한 이벤트 리스너는 그대로 유지한 상태에서
+// 추가로 deletelist 버튼을 제어하는 이벤트 리스너를 추가합니다.
+
+checklist.addEventListener('click', (event) => {
+  if (event.target && event.target.classList.contains('deletelist')) {
+    const itemToRemove = event.target.parentNode;
+    checklist.removeChild(itemToRemove);
+    itemCount--;
+  }
+});
+
 
 function formatTime(time) {
   const minutes = Math.floor(time / 60);
@@ -148,7 +213,7 @@ function updateThumbnail(videoId) {
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
   thumbnailImage.src = thumbnailUrl;
 }
-const $checkbox = document.querySelector('.check');
+const checkbox = document.getElementById('darkmode');
 
 const isUserColorTheme = localStorage.getItem('color-theme');
 const isOsColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -156,20 +221,19 @@ const isOsColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
 const getUserTheme = () => (isUserColorTheme ? isUserColorTheme : isOsColorTheme);
 
 window.onload = function () {
-  if (getUserTheme === 'dark') {
-    localStorage.setItem('color-theme', 'dark');
+  var colortheme = localStorage.getItem('color-theme')
+  if (colortheme == 'dark'){
     document.documentElement.setAttribute('color-theme', 'dark');
-    $checkbox.setAttribute('checked', true);
-  } else {
-    localStorage.setItem('color-theme', 'light');
+    checkbox.checked = true;
+  }else{
     document.documentElement.setAttribute('color-theme', 'light');
+    checkbox.checked = false;
   }
-  pickquote();
 };
 
-$checkbox.addEventListener('click', e => {
+checkbox.addEventListener('click', e => {
   if (e.target.checked) {
-    localStorage.setItem('color-theme', 'light');
+    localStorage.setItem('color-theme', 'dark');
     document.documentElement.setAttribute('color-theme', 'dark');
   } else {
     localStorage.setItem('color-theme', 'light');

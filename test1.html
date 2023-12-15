@@ -4,120 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .resizable-div {
+            background-color: #ebebeb;
+            border-radius: 30px;
+            overflow: auto;
+            resize: both;
+            width: 400px;
+            height: 300px;
+            padding: 20px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .checklist-item input[type="text"] {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: inherit;
+            filter: blur(0); /* 초기에 흐림 효과 없도록 설정 */
+        }
+        .checklist-item input[type="checkbox"]:checked + input[type="text"] {
+            filter: blur(2px); /* 체크박스가 선택되었을 때 흐리게 만들기 */
+        }
+    </style>
 </head>
 <body>
-    <input type="text" id="youtubeLink" placeholder="유튜브 링크를 입력하세요">
-    <button onclick="loadVideo()">동영상 불러오기</button>
-    <button onclick="playVideo()">재생</button>
-    <button onclick="pauseVideo()">일시정지</button>
-    <div id="player"></div>
-    <div id="videoInfo"></div>
-    <input type="range" id="videoSlider" min="0" value="0">
-    <img id="thumbnailImage" style="width: 50px; height:auto;" src="" alt="썸네일 이미지">
-    <script src="https://www.youtube.com/iframe_api"></script>    
+    <div class="resizable-div">
+        <div class="content">
+            <h2>ToDoList</h1>
+            <div class="checklist">
+                <!-- 체크리스트 아이템이 여기에 추가됩니다 -->
+            </div>
+            <button class="add-button">체크리스트 추가하기</button>
+        </div>
+    </div>
+    <script>
+        const addButton = document.querySelector('.add-button');
+        const checklist = document.querySelector('.checklist');
+        
+        let itemCount = 0;
+        
+        addButton.addEventListener('click', () => {
+            if (itemCount < 15) {
+                const newItem = document.createElement('div');
+                newItem.classList.add('checklist-item');
+                newItem.innerHTML = `
+                    <input type="checkbox" id="item-${itemCount}">  
+                    <input class='todolist' type="text" class="item-text" placeholder="할 일 ${itemCount + 1}">
+                `;
+                checklist.appendChild(newItem);
+                itemCount++;
+            } else {
+                alert('체크리스트는 최대 15개까지 추가할 수 있습니다.');
+            }
+        });
+    </script>
 </body>
-<script>
-    let player;
-let slider;
-let thumbnailImage;
-
-function onYouTubeIframeAPIReady() {
-  // API 준비 완료 시 실행될 작업
-  slider = document.getElementById('videoSlider');
-  thumbnailImage = document.getElementById('thumbnailImage');
-  slider.addEventListener('input', onSliderChange);
-}
-
-function loadVideo() {
-  const youtubeLink = document.getElementById('youtubeLink').value;
-  const videoId = getYoutubeVideoId(youtubeLink);
-
-  if (videoId) {
-    if (player) {
-      player.loadVideoById(videoId);
-      updateThumbnail(videoId);
-    } else {
-      player = new YT.Player('player', {
-        height: '0',
-        width: '0',
-        videoId: videoId,
-        playerVars: {
-          controls: 1,
-          autoplay: 1,
-          loop: 1
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-  } else {
-    alert('유효한 유튜브 링크를 입력하세요.');
-  }
-}
-
-function onPlayerReady(event) {
-  // 플레이어가 준비되었을 때 실행되는 함수
-  event.target.playVideo();
-  updateVideoInfo();
-  updateThumbnail(player.getVideoData().video_id);
-  setInterval(updateVideoInfo, 500); // 1초마다 비디오 정보 업데이트
-}
-
-function onPlayerStateChange(event) {
-  // 플레이어 상태 변화 감지 시 실행되는 함수
-  if (event.data == YT.PlayerState.ENDED) {
-    player.playVideo();
-  }
-}
-
-function getYoutubeVideoId(url) {
-  const regExp = /[?&]v=([^?&]+)/;
-  const match = url.match(regExp);
-  return match && match[1];
-}
-
-function playVideo() {
-  if (player) {
-    player.playVideo();
-  }
-}
-
-function pauseVideo() {
-  if (player) {
-    player.pauseVideo();
-  }
-}
-
-function updateVideoInfo() {
-  if (player) {
-    const videoInfo = document.getElementById('videoInfo');
-    videoInfo.innerHTML = `
-      <p>제목: ${player.getVideoData().title}</p>
-      <p>진행 시간: ${formatTime(player.getCurrentTime())} / ${formatTime(player.getDuration())}</p>
-    `;
-    slider.max = player.getDuration();
-    slider.value = player.getCurrentTime();
-  }
-}
-
-function formatTime(time) {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-}
-
-function onSliderChange() {
-  if (player) {
-    player.seekTo(slider.value);
-  }
-}
-
-function updateThumbnail(videoId) {
-  const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
-  thumbnailImage.src = thumbnailUrl;
-}
-
-</script>
 </html>

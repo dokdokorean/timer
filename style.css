@@ -13,11 +13,12 @@ body {
     text-align: center;
     transition: background-color 0.3s ease;
     background-color: var(--background);
+    overflow: hidden;
   }
   :root[color-theme='light'] {
     --background: #fff;
     --timerColor: #F6F6F6;
-    --musicColor: #d6d6d6;
+    --musicColor: #dfdfdf;
     --displayColor:#414141;
     --inputColor: white;
     --borderColor: #D3D3D3;
@@ -29,7 +30,7 @@ body {
     --displayColor:#C3C3C3;
     --inputColor: #282828;
     --borderColor: #292929;
-    --musicColor: #131313;
+    --musicColor: #202020;
 
   }  
   #title{
@@ -70,13 +71,72 @@ body {
   #nowtime2{
     top: -30px;
   }
+  #todolist-div {
+    left: 50%;
+    top: 45%;
+    position: relative;
+    background-color: #ebebeb;
+    border-radius: 30px;
+    overflow: auto;
+    resize: both;
+    width: 400px;
+    min-width: 200px;
+    min-height: 100px;
+    height: 300px;
+    padding: 20px;
+    opacity: 0.8;
+    transition: background-color 0.3s ease;
+      overflow: hidden; /* 스크롤 바 숨기기 */
+  }
+  .todolist{
+    transition: 0.3s ease;
+  }
+  #todolist-div h3{
+    width: fit-content;
+    position: relative;
+    left: 10px;
+    top: 10px;
+    font-family: 'pretnedard-sb';
+  }
+.checklist-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.checklist-item input[type="checkbox"] {
+    margin-right: 10px;
+    font-family: 'Pretendard-el';
+}
+.checklist-item input[type="text"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: inherit;
+    color: #191919;
+    font-family: 'Pretendard-el';
+    filter: blur(0); /* 초기에 흐림 효과 없도록 설정 */
+}
+.checklist-item input[type="checkbox"]:checked + input[type="text"] {
+    filter: blur(2px); /* 체크박스가 선택되었을 때 흐리게 만들기 */
+}
+.add-button{
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  border-radius: 5px;
+  background-color: #dbdbdb;
+  color: #535353;
+  font-family: 'pretendard-el';
+  text-align: center;
+}
   #musicplayer{
     width: 390px;
     height: 130px;
     position: absolute;
     left: 50%;
-    top: 560px;
-    z-index: 1;
+    top: 45%;
+    transform: translate(-50%,-50%);
     background-color: var(--musicColor);
     opacity: 0.8;
     transition: background-color 0.3s ease;
@@ -94,6 +154,7 @@ body {
     left: 150px;
     opacity: 0;
     transition: 0.3s ease;
+    border-radius: 3px;
   }
 #loadvideo{
     position: absolute;
@@ -102,7 +163,7 @@ body {
   }
   #videotitle{
     position: absolute;
-    top: 5px;
+    top: 20px;
     right: 15px;
     width: 250px;
     font-size: 14px;
@@ -137,7 +198,6 @@ body {
     top: 60px;
     left: 235px;
     transition: 0.4s ease;
-
   }
   #play{
     display: none;
@@ -145,13 +205,25 @@ body {
   #pause{
     display: block;
   }
+  #todolistdragger{
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translate(-50%,0);
+    width: 50px;
+    height: 9px;
+    border-radius: 5px;
+    background-color: var(--displayColor);
+    transition: background-color 0.3s ease;
+
+  }
   #musicdragger{
     position: absolute;
     top: -8px;
     left: 50%;
     transform: translate(-50%,0);
     width: 50px;
-    height: 5px;
+    height: 9px;
     border-radius: 5px;
     background-color: var(--displayColor);
   }
@@ -161,7 +233,7 @@ body {
     left: 50%;
     transform: translate(-50%,0);
     width: 50px;
-    height: 5px;
+    height: 10px;
     border-radius: 5px;
     background-color: var(--displayColor);
   }
@@ -170,7 +242,7 @@ body {
     width: 100px;
     height: 100px;
     left: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     top: 50%;
     transform: translate(0,-50%);
     background-color: #ffffff;
@@ -204,8 +276,12 @@ body {
     height: 15px;
     background: #e5e5e5; /* 슬라이더 썸의 색상 */
     border-radius: 50%;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    margin-top: -5px; /* 썸 위치 조정 */
+    margin-top: -6px; /* 썸 위치 조정 */
+  }
+  input[type="text"]:lang(ko) {
+    box-shadow: none;
   }
   #timer {
     position: absolute;
@@ -230,7 +306,7 @@ body {
     border: none;
     font-family: 'Pretendard-el';
     opacity: 1;
-    transition:opacity 0.3s;
+    transition: opacity 0.3s;
   }
   input{
     border: none;
@@ -311,7 +387,6 @@ body {
     font-size: 70px;
     color: var(--displayColor);
     transition:top 0.3s;
-
   }
 /* 현재 시간 */
 #nowtime{

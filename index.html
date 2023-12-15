@@ -14,7 +14,7 @@
       <img onclick="toggleVideo()" id="play" class="player" src="play.png">
       <img onclick="toggleVideo()" id="pause" class="player" src="pause.png">
       <div id="player"></div>
-      <p id="videotitle"></p>
+      <div id="videotitle"></div>
       <p id="videorange1">00:00</p>
       <p id="videorange2">00:00</p>
       <input id="slider" type="range" min="0" value="0">
@@ -26,6 +26,16 @@
     <p id="nowtime1">00</p>
     <p id="nowtime2">00</p>
   </div>
+    <div id="todolist-div">
+      <p id="todolistdragger"></p>
+      <div class="content">
+          <h3>To-do List</h3>
+          <div class="checklist">
+              <!-- 체크리스트 아이템이 여기에 추가됩니다 -->
+          </div>
+          <button class="add-button">+</button>
+      </div>
+    </div>
   <!-- <input id="title" placeholder="내가 꿈을 꿀때 다른 이들은 꿈을 이룬다.">  -->
   <div id="timer">
     <p id="timerdragger"></p>
