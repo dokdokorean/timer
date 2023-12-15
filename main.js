@@ -10,6 +10,7 @@ let player;
 let slider;
 let thumbnailImage;
 
+
 function onYouTubeIframeAPIReady() {
   // API 준비 완료 시 실행될 작업
   slider = document.getElementById('slider');
@@ -60,7 +61,6 @@ function onPlayerStateChange(event) {
     player.playVideo();
   }
 }
-
 
 function getYoutubeVideoId(url) {
   const regExp = /[?&]v=([^?&]+)/;
@@ -133,7 +133,6 @@ document.addEventListener('mousemove', function(e) {
   }
 });
 
-(document.getElementById('todolist-div').width)*0.5
 // 마우스 릴리스 이벤트
 document.addEventListener('mouseup', function() {
   ismusicplayerDragging = false;
@@ -163,11 +162,12 @@ function addlist() {
     newItem.classList.add('checklist-item');
     newItem.innerHTML = `
       <input type="checkbox" id="item-${itemCount}">  
-      <input class='todolist' type="text"placeholder="할 일 ${itemCount + 1}">
+      <input class='todolist' id="todolist${itemCount+1}" onmouseout=record_todolist() type="text"placeholder="할 일 ${itemCount + 1}">
       <button class='deletelist'>-</button>
     `;
     checklist.appendChild(newItem);
     itemCount++;
+    localStorage.setItem('localstorage-itemcount',itemCount);
     const newlyAddedInput = newItem.querySelector('.todolist');
     newlyAddedInput.focus();
   } else {
@@ -193,6 +193,7 @@ checklist.addEventListener('click', (event) => {
     const itemToRemove = event.target.parentNode;
     checklist.removeChild(itemToRemove);
     itemCount--;
+    localStorage.setItem('localstorage-itemcount',itemCount);
   }
 });
 
@@ -213,6 +214,15 @@ function updateThumbnail(videoId) {
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
   thumbnailImage.src = thumbnailUrl;
 }
+function record_todolist(){
+  let localstorage_itemcount=localStorage.getItem('localstorage-itemcount')
+  localstorage_todolist_record=[];
+  for (var i=1;i<localstorage_itemcount+1;i++){
+    localstorage_todolist_record.push(document.getElementById('todolist'+i).value);
+    console.log(localstorage_todolist_record)
+    localStorage.setItem('localstorage-todolist-record',localstorage_todolist_record);
+  }
+}
 const checkbox = document.getElementById('darkmode');
 
 const isUserColorTheme = localStorage.getItem('color-theme');
@@ -228,6 +238,22 @@ window.onload = function () {
   }else{
     document.documentElement.setAttribute('color-theme', 'light');
     checkbox.checked = false;
+  }
+  let localstorage_itemcount=localStorage.getItem('localstorage-itemcount')
+  console.log(localstorage_itemcount)
+  for (var i=1;i<parseInt(localstorage_itemcount)+1;i++){
+    addlist()
+    console.log(todolistid)
+    record_input=localStorage.getItem('localstorage-todolist-record')
+    console.log(record_input)
+  }
+  let commaSeparatedString = record_input;
+  let record_input_array = commaSeparatedString.split(',');
+  console.log(record_input_array)
+
+  for(var i=1;i<parseInt(localstorage_itemcount+1);i++){    
+    var todolistid='todolist'+i;
+    document.getElementById(todolistid).value=record_input_array[i-1];
   }
 };
 
