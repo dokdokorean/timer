@@ -61,7 +61,6 @@ function onPlayerStateChange(event) {
     player.playVideo();
   }
 }
-
 function getYoutubeVideoId(url) {
   const regExp = /[?&]v=([^?&]+)/;
   const match = url.match(regExp);
