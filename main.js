@@ -66,6 +66,7 @@ function getYoutubeVideoId(url) {
   const match = url.match(regExp);
   return match && match[1];
 }
+
 function toggleVideo() {
   if (player) {
     if (player.getPlayerState() === 1) { // 재생 중인 경우
