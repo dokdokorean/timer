@@ -160,8 +160,8 @@ function addlist() {
     newItem.classList.add('checklist-item');
     newItem.innerHTML = `
       <input type="checkbox" id="item-${itemCount}">  
-      <input class='todolist' id="todolist${itemCount+1}" onmouseout=record_todolist() type="text"placeholder="할 일 ${itemCount + 1}">
-      <button class='deletelist'>-</button>
+      <input class='todolist' id="todolist${itemCount+1}" type="text"placeholder="할 일 ${itemCount + 1}">
+      <button class='deletelist' >-</button>
     `;
     checklist.appendChild(newItem);
     itemCount++;
@@ -172,6 +172,38 @@ function addlist() {
     alert('체크리스트는 최대 25개까지 추가할 수 있습니다.');
   }
 }
+checklist.addEventListener('click', (event) => {
+  if (event.target && event.target.classList.contains('deletelist')) {
+    const itemToRemove = event.target.parentNode;
+    const itemId = itemToRemove.querySelector('.todolist').id.replace('todolist', '');
+    
+    // 삭제된 항목 이후의 모든 항목에 대해 ID를 다시 설정
+    const itemsToReorder = itemToRemove.parentNode.children;
+    for (let i = parseInt(itemId); i < itemCount; i++) {
+      const currentItem = itemsToReorder[i];
+      const input = currentItem.querySelector('.todolist');
+      input.id = 'todolist' + i;
+      input.placeholder = '할 일 ' + i;
+      const button = currentItem.querySelector('.deletelist');
+      button.setAttribute('data-id', i);
+    }
+
+    checklist.removeChild(itemToRemove);
+    itemCount--;
+    localStorage.setItem('localstorage-itemcount', itemCount);
+  }
+});
+
+function record_todolist() {
+  let localstorage_itemcount = localStorage.getItem('localstorage-itemcount');
+  let localstorage_todolist_record = [];
+
+  for (let i = 1; i <= localstorage_itemcount; i++) {
+    localstorage_todolist_record.push(document.getElementById('todolist' + i).value);
+  }
+
+  localStorage.setItem('localstorage-todolist-record', JSON.stringify(localstorage_todolist_record));
+}
 
 document.getElementById('todolist-div').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
@@ -179,21 +211,8 @@ document.getElementById('todolist-div').addEventListener('keydown', function(e) 
   }
 });
 
-addButton.addEventListener('click', () => {
-  addlist();
-});
-
 // 기존 addButton에 대한 이벤트 리스너는 그대로 유지한 상태에서
 // 추가로 deletelist 버튼을 제어하는 이벤트 리스너를 추가합니다.
-
-checklist.addEventListener('click', (event) => {
-  if (event.target && event.target.classList.contains('deletelist')) {
-    const itemToRemove = event.target.parentNode;
-    checklist.removeChild(itemToRemove);
-    itemCount--;
-    localStorage.setItem('localstorage-itemcount',itemCount);
-  }
-});
 
 
 function formatTime(time) {
@@ -212,15 +231,7 @@ function updateThumbnail(videoId) {
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/0.jpg`;
   thumbnailImage.src = thumbnailUrl;
 }
-function record_todolist(){
-  let localstorage_itemcount=localStorage.getItem('localstorage-itemcount')
-  localstorage_todolist_record=[];
-  for (var i=1;i<localstorage_itemcount+1;i++){
-    localstorage_todolist_record.push(document.getElementById('todolist'+i).value);
-    console.log(localstorage_todolist_record)
-    localStorage.setItem('localstorage-todolist-record',localstorage_todolist_record);
-  }
-}
+
 const checkbox = document.getElementById('darkmode');
 
 const isUserColorTheme = localStorage.getItem('color-theme');
@@ -237,22 +248,25 @@ window.onload = function () {
     document.documentElement.setAttribute('color-theme', 'light');
     checkbox.checked = false;
   }
-  let localstorage_itemcount=localStorage.getItem('localstorage-itemcount')
-  console.log(localstorage_itemcount)
-  for (var i=1;i<parseInt(localstorage_itemcount)+1;i++){
-    addlist()
-    console.log(todolistid)
-    record_input=localStorage.getItem('localstorage-todolist-record')
-    console.log(record_input)
-  }
-  record_input=localStorage.getItem('localstorage-todolist-record')
-  let commaSeparatedString = record_input;
-  let record_input_array = commaSeparatedString.split(',');
+  let localstorage_itemcount = localStorage.getItem('localstorage-itemcount');
+console.log(localstorage_itemcount);
 
-  for(var i=1;i<parseInt(localstorage_itemcount+1);i++){    
-    var todolistid='todolist'+i;
-    document.getElementById(todolistid).value=record_input_array[i-1];
-  }
+for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
+  addlist();
+  console.log(todolistid);
+
+  let record_input = localStorage.getItem('localstorage-todolist-record');
+  console.log(record_input);
+}
+
+let record_input = localStorage.getItem('localstorage-todolist-record');
+let record_input_array = JSON.parse(record_input);
+
+for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
+  var todolistid = 'todolist' + i;
+  document.getElementById(todolistid).value = record_input_array[i - 1];
+}
+
 };
 
 checkbox.addEventListener('click', e => {
@@ -265,46 +279,7 @@ checkbox.addEventListener('click', e => {
   }
 });
 
-function updateTime() {
-  // 현재 시간을 가져옵니다.
-  var now = new Date();
-  
-  var year = now.getFullYear();
-  var month = now.getMonth()+1;
-  var date = now.getDate();
-  if(now.getDay()==0){
-    var day = '일요일';
-  }else if(now.getDay()==1){
-    var day = '월요일';
-  }else if(now.getDay()==2){
-    var day = '화요일';
-  }else if(now.getDay()==3){
-    var day = '수요일';
-  }else if(now.getDay()==4){
-    var day = '목요일';
-  }else if(now.getDay()==5){
-    var day = '금요일';
-  }else if(now.getDay()==6){
-    var day = '토요일';
-  }
-  // 시, 분, 초를 가져옵니다.
-  var hours = now.getHours();
-  var minutes = now.getMinutes();
-  var seconds = now.getSeconds();
-  
-  // 시간, 분, 초가 한 자리 숫자일 경우 앞에 0을 붙여 두 자리로 만듭니다.
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  seconds = seconds < 10 ? '0' + seconds : seconds;
-  
-  // 현재 시간을 형식에 맞게 표시합니다.
-  var currentday = year + '.' + month + '.'+ date  + ','+ day;
-  var currentTime = hours + ':' + minutes + ':' + seconds;
-  
   // HTML 문서의 특정 요소에 현재 시간을 표시합니다.
-  document.getElementById('nowtime1').innerText = currentday;
-  document.getElementById('nowtime2').innerText = currentTime;
-}
 
 // 1초마다 updateTime 함수를 호출하여 시간을 업데이트합니다.
 setInterval(updateTime, 1000);
@@ -355,11 +330,8 @@ function hideLinkYoutube(){
   document.getElementById('pause').style.opacity = '1'
   loadVideo()
 }
-    document.addEventListener('DOMContentLoaded', function() {
-        const overlay = document.getElementById('timer');
-    
         // 마우스 오버 시 애니메이션
-        overlay.addEventListener('mouseover', function() {
+function timermouseover() {
           document.getElementById('hoursInput').style.opacity = '1';
           document.getElementById('minutesInput').style.opacity = '1';
           document.getElementById('secondsInput').style.opacity = '1';
@@ -367,10 +339,10 @@ function hideLinkYoutube(){
           document.getElementById('stop').style.opacity = '1';
           document.getElementById('reset').style.opacity = '1'; // 투명도를 1로 변경
           document.getElementById('display').style.top='30px'; 
-        });
+        };
     
         // 마우스 아웃 시 애니메이션
-        overlay.addEventListener('mouseout', function() {
+function timermouseout() {
             document.getElementById('hoursInput').style.opacity = '0';
             document.getElementById('minutesInput').style.opacity = '0';
             document.getElementById('secondsInput').style.opacity = '0';
@@ -378,8 +350,7 @@ function hideLinkYoutube(){
             document.getElementById('stop').style.opacity = '0';
             document.getElementById('reset').style.opacity = '0'; // 투명하게 변경
             document.getElementById('display').style.top='85px'; 
-        });
-      });
+        };
       function isFullScreen() {
         return (
           document.fullscreenElement ||
@@ -414,8 +385,6 @@ function fullsc(){
         document.documentElement.requestFullscreen()
   }
 }
-// document.getElementById('title').ariaPlaceholder='하이'
-
 function displayTime() {
     let display = `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
     let displayElement = document.getElementById('display');

@@ -21,23 +21,18 @@
       <img id="thumbnailImage" onclick="showLinkYoutube()">
       <script src="https://www.youtube.com/iframe_api"></script>    
     </div>
-  <div id="nowtime">
-    <p>대한민국 표준시 (GMT+9)</p>
-    <p id="nowtime1">00</p>
-    <p id="nowtime2">00</p>
-  </div>
-    <div id="todolist-div">
+    <div id="todolist-div" onmouseout=record_todolist()>
       <p id="todolistdragger"></p>
       <div class="content">
-          <h3>To-do List</h3>
-          <div class="checklist">
+        <p id="today"></p>
+        <div class="checklist">
               <!-- 체크리스트 아이템이 여기에 추가됩니다 -->
           </div>
-          <button class="add-button">+</button>
+          <button class="add-button" onclick="addlist()">+</button>
       </div>
     </div>
   <!-- <input id="title" placeholder="내가 꿈을 꿀때 다른 이들은 꿈을 이룬다.">  -->
-  <div id="timer">
+  <div id="timer" onmouseover="timermouseover()" onmouseout="timermouseout()">
     <p id="timerdragger"></p>
     <input type="number" id="hoursInput" placeholder="Hour">
     <input type="number" id="minutesInput" placeholder="Minute">

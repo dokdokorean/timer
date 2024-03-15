@@ -50,7 +50,9 @@ body {
   }
   #nowtime{
     color: var(--displayColor);
+    resize: both;
     transition: color 0.3s ease;
+    background-color: #ebebeb;
     position: absolute;
     top: 0px;
     letter-spacing: 1px;
@@ -59,7 +61,7 @@ body {
   }
   #nowtime p{
     position: relative;
-    width: 300px;
+    width: 100%;
     left: 0px;
     text-align: left;
   }
