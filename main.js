@@ -9,6 +9,53 @@ let blinkInterval;
 let player;
 let slider;
 let thumbnailImage;
+let today = new Date();
+let month = today.getMonth() + 1;  // 월
+let date = today.getDate();  // 날짜
+
+window.onload = function () {
+  document.getElementById('today').placeholder =month+' / '+date;
+  var colortheme = localStorage.getItem('color-theme')
+  if (colortheme == 'dark'){
+    document.documentElement.setAttribute('color-theme', 'dark');
+    checkbox.checked = true;
+  }else{
+    document.documentElement.setAttribute('color-theme', 'light');
+    checkbox.checked = false;
+  }
+  let localstorage_itemcount = localStorage.getItem('localstorage-itemcount');
+console.log(localstorage_itemcount);
+
+for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
+  addlist();
+  console.log(todolistid);
+
+  let record_input = localStorage.getItem('localstorage-todolist-record');
+  console.log(record_input);
+}
+
+let record_input = localStorage.getItem('localstorage-todolist-record');
+let record_input_array = JSON.parse(record_input);
+
+for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
+  var todolistid = 'todolist' + i;
+  document.getElementById(todolistid).value = record_input_array[i - 1];
+}
+
+let div = document.getElementById('todolist-div');
+var todolistleft_var=localStorage.getItem("todolistleft");
+var todolisttop_var=localStorage.getItem("todolisttop");
+var todolistwidth_var=localStorage.getItem("todolistwidth");
+var todolistheight_var=localStorage.getItem("todolistheight");
+
+
+div.style.left=todolistleft_var+'px';
+div.style.top=todolisttop_var+'px';
+div.style.width=todolistwidth_var+'px';
+div.style.height=todolistheight_var+'px';
+
+};
+
 function onYouTubeIframeAPIReady() {
   // API 준비 완료 시 실행될 작업
   slider = document.getElementById('slider');
@@ -92,8 +139,6 @@ let ismusicplayerDragging = false;
 let istimerDragging = false;
 let istodolistDragging = false;
 
-
-
 // 마우스 클릭 이벤트
 musicplayerdragger.addEventListener('mousedown', function(e) {
   ismusicplayerDragging = true;
@@ -124,6 +169,11 @@ document.addEventListener('mousemove', function(e) {
   else if (istodolistDragging) {
     todolistdiv.style.left = `${e.clientX-todolistdiv.getBoundingClientRect().width*0.5}px`;
     todolistdiv.style.top = `${e.clientY -20}px`;
+    localStorage.setItem("todolistleft",e.clientX-todolistdiv.getBoundingClientRect().width*0.5);
+    localStorage.setItem("todolisttop",e.clientY -20);
+    localStorage.setItem("todolistwidth",todolistdiv.style.width);
+    localStorage.setItem("todolistheight",todolistdiv.style.top);
+
     todolistdiv.style.zIndex = zindexevent;
     zindexevent++;
   }
@@ -236,36 +286,6 @@ const isUserColorTheme = localStorage.getItem('color-theme');
 const isOsColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 const getUserTheme = () => (isUserColorTheme ? isUserColorTheme : isOsColorTheme);
-
-window.onload = function () {
-  var colortheme = localStorage.getItem('color-theme')
-  if (colortheme == 'dark'){
-    document.documentElement.setAttribute('color-theme', 'dark');
-    checkbox.checked = true;
-  }else{
-    document.documentElement.setAttribute('color-theme', 'light');
-    checkbox.checked = false;
-  }
-  let localstorage_itemcount = localStorage.getItem('localstorage-itemcount');
-console.log(localstorage_itemcount);
-
-for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
-  addlist();
-  console.log(todolistid);
-
-  let record_input = localStorage.getItem('localstorage-todolist-record');
-  console.log(record_input);
-}
-
-let record_input = localStorage.getItem('localstorage-todolist-record');
-let record_input_array = JSON.parse(record_input);
-
-for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
-  var todolistid = 'todolist' + i;
-  document.getElementById(todolistid).value = record_input_array[i - 1];
-}
-
-};
 
 checkbox.addEventListener('click', e => {
   if (e.target.checked) {

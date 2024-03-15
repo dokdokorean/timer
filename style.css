@@ -92,12 +92,18 @@ body {
   .todolist{
     transition: 0.3s ease;
   }
-  #todolist-div h3{
-    width: fit-content;
+  #today{
     position: relative;
-    left: 10px;
-    top: 10px;
-    font-family: 'pretnedard-sb';
+    flex: 1;
+    height: 50px;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 20px;
+    color: #191919;
+    font-family: 'Pretendard-medium';
+    filter: blur(0); /* 초기에 흐림 효과 없도록 설정 */
   }
 .checklist-item {
     display: flex;
