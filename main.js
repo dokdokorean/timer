@@ -9,8 +9,6 @@ let blinkInterval;
 let player;
 let slider;
 let thumbnailImage;
-
-
 function onYouTubeIframeAPIReady() {
   // API 준비 완료 시 실행될 작업
   slider = document.getElementById('slider');
