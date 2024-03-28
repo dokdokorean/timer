@@ -45,22 +45,25 @@ for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
 
 var todolistleft_var=localStorage.getItem("todolistleft");
 var todolisttop_var=localStorage.getItem("todolisttop");
+var todolistwidth_var=localStorage.getItem("todolistwidth");
+var todolistheight_var=localStorage.getItem("todolistheight");
 
 let todolist_div = document.getElementById('todolist-div');
 let keyframes_todoist = [
-  { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' },
-  { left: `${todolistleft_var}px`, top: `${todolisttop_var}px`, transform: 'none' }
+  { left: '50%', top: '50%', transform: 'translate(-50%, -50%)',width: '200px',height:'200px' },
+  { left: `${todolistleft_var}px`, top: `${todolisttop_var}px`, width: todolistwidth_var , height: todolistheight_var}
 ];
 
+todolist_div.style.left=todolistleft_var+'px';
+todolist_div.style.top=todolisttop_var+'px';
+todolist_div.style.width=todolistwidth_var;
+todolist_div.style.height=todolistheight_var;
+
 let options_todolist = {
-  duration: 1500,
+  duration: 1100,
   easing:"ease",
-  fill:"forwards"
-
 };
-
 todolist_div.animate(keyframes_todoist, options_todolist);
-
 
 
 var timerleft_var=localStorage.getItem("timerleft");
@@ -69,16 +72,37 @@ var timertop_var=localStorage.getItem("timertop");
 let timer_div = document.getElementById('timer');
 let keyframes_timer = [
   { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' },
-  { left: `${timerleft_var}px`, top: `${timertop_var}px`, transform: 'none' }
+  { left: `${timerleft_var}px`, top: `${timertop_var}px` }
 ];
 
+timer_div.style.left=timerleft_var+'px';
+timer_div.style.top=timertop_var+'px';
+
 let options_timer = {
-  duration: 1500,
+  duration: 1100,
   easing:"ease",
-  fill:"forwards"
 };
 
 timer_div.animate(keyframes_timer, options_timer);
+
+var musicleft_var=localStorage.getItem("musicleft");
+var musictop_var=localStorage.getItem("musictop");
+
+let music_div = document.getElementById('musicplayer');
+let keyframes_music = [
+  { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' },
+  { left: `${musicleft_var}px`, top: `${musictop_var}px` }
+];
+
+music_div.style.left=musicleft_var+'px';
+music_div.style.top=musictop_var+'px';
+
+let options_music = {
+  duration: 1100,
+  easing:"ease",
+};
+
+music_div.animate(keyframes_music, options_music);
 };
 
 function onYouTubeIframeAPIReady() {
@@ -182,14 +206,16 @@ document.addEventListener('mousemove', function(e) {
   if (ismusicplayerDragging) {
     musicplayerdiv.style.left = `${e.clientX}px`;
     musicplayerdiv.style.top = `${e.clientY - 10}px`;
+    localStorage.setItem("musicleft",e.clientX-musicplayerdiv.getBoundingClientRect().width*0.5+200);
+    localStorage.setItem("musictop",e.clientY - 10);
     musicplayerdiv.style.zIndex = zindexevent;
     zindexevent++;
     }
   else if (istimerDragging) {
-    timerdiv.style.left = `${e.clientX}px`;
-    timerdiv.style.top = `${e.clientY + 130}px`;
+    timerdiv.style.left = `${e.clientX-290}px`;
+    timerdiv.style.top = `${e.clientY -60}px`;
     localStorage.setItem("timerleft",e.clientX-timerdiv.getBoundingClientRect().width*0.5);
-    localStorage.setItem("timertop",e.clientY -20);
+    localStorage.setItem("timertop",e.clientY-60);
     timerdiv.style.zIndex = zindexevent;
     zindexevent++;
   }
@@ -198,13 +224,16 @@ document.addEventListener('mousemove', function(e) {
     todolistdiv.style.top = `${e.clientY -20}px`;
     localStorage.setItem("todolistleft",e.clientX-todolistdiv.getBoundingClientRect().width*0.5);
     localStorage.setItem("todolisttop",e.clientY -20);
-    localStorage.setItem("todolistwidth",todolistdiv.style.width);
-    localStorage.setItem("todolistheight",todolistdiv.style.top);
 
     todolistdiv.style.zIndex = zindexevent;
     zindexevent++;
   }
 });
+
+document.getElementById('todolist-div').addEventListener('mouseup',()=>{
+    localStorage.setItem("todolistwidth",todolistdiv.style.width);
+    localStorage.setItem("todolistheight",todolistdiv.style.height);
+})
 
 // 마우스 릴리스 이벤트
 document.addEventListener('mouseup', function() {

@@ -296,7 +296,6 @@ body {
     position: absolute;
     left: 50%;
     top: 45%;
-    transform: translate(-50%,-50%);
     margin-top: 50px;
     transition: background-color 0.3s ease;
     background-color: var(--timerColor);
