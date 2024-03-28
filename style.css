@@ -45,11 +45,86 @@ body {
     text-align: center;
     font-family: 'Pretendard-el';
   }
-  #darkmode{
+  #navbar{
     position: absolute;
-    top: 0px;
-    right: 0px;
+    left: 50%;
+    bottom: 5px;
+    display: flex;
+    align-items: center;
+    transform: translate(-50%,0);
+    border: #2f2f2f solid 0.5px;
+    width: 510px;
+    height: 7px;
+    border-radius: 25px;
+    background: #000000;
+    overflow: hidden;
+    transition: 0.5s ;
   }
+  #navbar > * {
+    opacity: 0;
+    transition: 0.5s ease;
+}
+  #navbar:hover{
+    position: absolute;
+    left: 50%;
+    display: flex;
+    opacity: 1;
+    align-items: center;
+    border:none;
+    bottom: 5px;
+    transform: translate(-50%,0);
+    width: 510px;
+    height: 70px;
+    border-radius: 25px;
+    background: #989898;
+    transition: 0.5s ;
+  }
+    #navbar:hover > *{
+    opacity: 1;
+    transition: 0.5s ease;
+
+}
+  #musicbtn,#todolistbtn,#timerbtn,#clockbtn{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    left: 5px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 14px;
+  }
+  #musicbtn img,#todolistbtn img,#timerbtn img,#clockbtn img{
+    position: relative;
+    left: 10px;
+    width: 19px;
+  }
+  #fullsc{
+    position: absolute;
+    right: 28px;
+    width: 22px;
+  }
+  #darkmode{
+        display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    left: 15px;
+  border-left: #000 solid 0.2px;
+  border-right: #000 solid 0.2px;
+  width: 140px;
+  height: 45px;
+}
+  #sun{
+    position: relative;
+    width: 25px;
+  }
+  #moon{
+    position: relative;
+    width: 18px;
+  }
+
   #nowtime{
     color: var(--displayColor);
     resize: both;
@@ -303,13 +378,7 @@ body {
     height: 390px;
     border-radius: 30px;
   }
-  #fullsc{
-    position: absolute;
-    width: 30px;
-    left: 10px;
-    bottom: 10px;
-    
-  }
+
   button{
     border: none;
     font-family: 'Pretendard-el';

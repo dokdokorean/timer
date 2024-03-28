@@ -7,7 +7,6 @@
   <link rel="icon" href="time.ico">
 </head>
 <body>
-    <input id="darkmode" class="check" type="checkbox"/>
     <div id="musicplayer">
       <p id="musicdragger"></p>
       <input type="text" id="youtubeLink" placeholder="유튜브 링크를 입력하세요" onkeyup="if(window.event.keyCode==13){hideLinkYoutube()}"/>
@@ -26,12 +25,10 @@
       <div class="content">
         <input type="text" id="today" >
         <div class="checklist">
-              <!-- 체크리스트 아이템이 여기에 추가됩니다 -->
           </div>
           <button class="add-button" onclick="addlist()">+</button>
       </div>
     </div>
-  <!-- <input id="title" placeholder="내가 꿈을 꿀때 다른 이들은 꿈을 이룬다.">  -->
   <div id="timer" onmouseover="timermouseover()" onmouseout="timermouseout()">
     <p id="timerdragger"></p>
     <input type="number" id="hoursInput" placeholder="Hour">
@@ -42,8 +39,17 @@
     <button id="reset" onclick="resetTimer()">Reset</button>
     <p id="display">00:00:00</p>
   </div>
-
-  <img id="fullsc" onclick="fullsc()" src="fullsc.png">
+  <div id="navbar">
+    <button id="musicbtn"><img src="music.png"/></button>
+    <button id="todolistbtn"><img src="todolist.png" alt=""></button>
+    <button id="timerbtn"><img src="timer.png" alt=""></button>
+    <button id="clockbtn"><img src="clock.png" alt=""></button>
+    <div id="darkmode">
+      <img id="sun" src="sun.png">
+      <img id="moon" src="moon.png">
+    </div>
+    <img id="fullsc" onclick="fullsc()" src="fullsc.png">
+  </div>
   <script src="main.js"></script>
 </body>
 </html>

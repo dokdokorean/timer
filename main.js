@@ -342,14 +342,20 @@ const isUserColorTheme = localStorage.getItem('color-theme');
 const isOsColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 const getUserTheme = () => (isUserColorTheme ? isUserColorTheme : isOsColorTheme);
+var darkmode_var=0;
 
 checkbox.addEventListener('click', e => {
-  if (e.target.checked) {
+  if (darkmode_var==0) {
     localStorage.setItem('color-theme', 'dark');
     document.documentElement.setAttribute('color-theme', 'dark');
-  } else {
+    darkmode_var=1;
+    console.log(darkmode_var);
+  } else if (darkmode_var==1) {
     localStorage.setItem('color-theme', 'light');
     document.documentElement.setAttribute('color-theme', 'light');
+    darkmode_var=0;
+    console.log(darkmode_var);
+
   }
 });
 
