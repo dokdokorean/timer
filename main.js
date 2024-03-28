@@ -24,6 +24,7 @@ window.onload = function () {
     checkbox.checked = false;
   }
   let localstorage_itemcount = localStorage.getItem('localstorage-itemcount');
+  
 console.log(localstorage_itemcount);
 
 for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
@@ -42,18 +43,42 @@ for (var i = 1; i < parseInt(localstorage_itemcount) + 1; i++) {
   document.getElementById(todolistid).value = record_input_array[i - 1];
 }
 
-let div = document.getElementById('todolist-div');
 var todolistleft_var=localStorage.getItem("todolistleft");
 var todolisttop_var=localStorage.getItem("todolisttop");
-var todolistwidth_var=localStorage.getItem("todolistwidth");
-var todolistheight_var=localStorage.getItem("todolistheight");
+
+let todolist_div = document.getElementById('todolist-div');
+let keyframes_todoist = [
+  { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' },
+  { left: `${todolistleft_var}px`, top: `${todolisttop_var}px`, transform: 'none' }
+];
+
+let options_todolist = {
+  duration: 1500,
+  easing:"ease",
+  fill:"forwards"
+
+};
+
+todolist_div.animate(keyframes_todoist, options_todolist);
 
 
-div.style.left=todolistleft_var+'px';
-div.style.top=todolisttop_var+'px';
-div.style.width=todolistwidth_var+'px';
-div.style.height=todolistheight_var+'px';
 
+var timerleft_var=localStorage.getItem("timerleft");
+var timertop_var=localStorage.getItem("timertop");
+
+let timer_div = document.getElementById('timer');
+let keyframes_timer = [
+  { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' },
+  { left: `${timerleft_var}px`, top: `${timertop_var}px`, transform: 'none' }
+];
+
+let options_timer = {
+  duration: 1500,
+  easing:"ease",
+  fill:"forwards"
+};
+
+timer_div.animate(keyframes_timer, options_timer);
 };
 
 function onYouTubeIframeAPIReady() {
@@ -163,6 +188,8 @@ document.addEventListener('mousemove', function(e) {
   else if (istimerDragging) {
     timerdiv.style.left = `${e.clientX}px`;
     timerdiv.style.top = `${e.clientY + 130}px`;
+    localStorage.setItem("timerleft",e.clientX-timerdiv.getBoundingClientRect().width*0.5);
+    localStorage.setItem("timertop",e.clientY -20);
     timerdiv.style.zIndex = zindexevent;
     zindexevent++;
   }
