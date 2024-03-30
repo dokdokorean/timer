@@ -337,31 +337,56 @@ function updateThumbnail(videoId) {
 }
 
 const checkbox = document.getElementById('darkmode');
+let darkmode_var = 0;
 
 const isUserColorTheme = localStorage.getItem('color-theme');
-const isOsColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+const isOsColorTheme = 'light'; // 예시로 'light'를 기본 값으로 설정합니다.
 
 const getUserTheme = () => (isUserColorTheme ? isUserColorTheme : isOsColorTheme);
-var darkmode_var=0;
+const colorTheme = getUserTheme();
+
+const darkmode_sq = document.getElementById('darkmode_sq');
+if (colorTheme === 'dark') {
+  darkmode_sq.style.left = '73px';
+} else {
+  darkmode_sq.style.left = '20px';
+}
+let keyframes_darkmode_dark = [
+  { left: '20px', top: '-18px',backgroundColor: '#FFFFFF' },
+  { left: `73px`, top: `-18px`, backgroundColor: '#1D1D1D' }
+];
+let options_darkmode_dark = {
+  duration: 600,
+  fill: "forwards",
+  easing:"ease",
+};
+
+let keyframes_darkmode_bright = [
+  { left: '73px', top: '-18px', backgroundColor: '#1D1D1D'},
+  { left: `20px`, top: `-18px`, backgroundColor: '#FFFFFF' }
+];
+let options_darkmode_bright = {
+  duration: 600,
+  fill: "forwards",
+  easing:"ease",
+};
+
 
 checkbox.addEventListener('click', e => {
-  if (darkmode_var==0) {
+  if (darkmode_var == 0) {
     localStorage.setItem('color-theme', 'dark');
+    darkmode_sq.animate(keyframes_darkmode_dark, options_darkmode_dark);
     document.documentElement.setAttribute('color-theme', 'dark');
-    darkmode_var=1;
+    darkmode_var = 1;
     console.log(darkmode_var);
-  } else if (darkmode_var==1) {
+  } else if (darkmode_var == 1) {
     localStorage.setItem('color-theme', 'light');
+    darkmode_sq.animate(keyframes_darkmode_bright, options_darkmode_bright);
     document.documentElement.setAttribute('color-theme', 'light');
-    darkmode_var=0;
+    darkmode_var = 0;
     console.log(darkmode_var);
-
   }
 });
-
-  // HTML 문서의 특정 요소에 현재 시간을 표시합니다.
-
-// 1초마다 updateTime 함수를 호출하여 시간을 업데이트합니다.
 setInterval(updateTime, 1000);
 
 // 페이지 로드 시에도 초기 시간을 표시합니다.
@@ -539,17 +564,3 @@ function resetTimer() {
   displayElement.innerText = display;
   isTimerRunning = false;
 }
-
-// function pickquote(){
-//   fetch('quote.json')
-//       .then(response => response.json())
-//       .then(data => {
-//         // 명언을 랜덤으로 선택합니다.
-//         const randomIndex = Math.floor(Math.random() * (data.length));
-//         const randomQuote = data[randomIndex];
-
-//         document.getElementById('title').placeholder = randomQuote.quote + '-' + randomQuote.author;
-
-//         // HTML에 명언과 저자를 추가합니다.
-//       })
-// }
